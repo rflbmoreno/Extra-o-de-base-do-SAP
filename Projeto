@@ -1,0 +1,1480 @@
+Public SapGui
+Public Applic
+Public connection
+Public session
+Public WSHShell
+
+Sub dir_sap()
+
+On Error Resume Next
+
+Dim bases
+
+bases = Array("MB5B", "MB5BAVARIA", "MB51", "MB5T", "ZSD025", "ZWM013", "LX03_L1", "LX03_L2", "LX03_PDN", "ZTMM_0001")
+
+For Each i In bases
+
+    If Dir("Y:\Projetos\Projetos Python\SAP VBA\" & i & "\" & Format(Now() - 1, "yyyy"), vbDirectory) = "" Then
+
+        MkDir ("Y:\Projetos\Projetos Python\SAP VBA\" & i & "\" & Format(Now() - 1, "yyyy"))
+
+    End If
+    
+    If Dir("Y:\Projetos\Projetos Python\SAP VBA\" & i & "\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase), vbDirectory) = "" Then
+
+        MkDir ("Y:\Projetos\Projetos Python\SAP VBA\" & i & "\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase))
+
+    End If
+    
+Next i
+
+End Sub
+
+Sub dir_sap2()
+
+On Error Resume Next
+
+Dim bases
+
+bases = Array("MB51", "ZSD025", "MB5B", "MB5T", "ZWM013", "MB5BAVARIA", "LX03_L1", "LX03_L2", "LX03_PDN", "ZTMM_0001")
+
+If Dir("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy"), vbDirectory) = "" Then
+
+    MkDir ("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy"))
+
+End If
+
+j = 1
+
+For Each i In bases
+
+    If j < 10 Then
+
+        If Dir("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\0" & j & " - " & i, vbDirectory) = "" Then
+
+            MkDir ("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\0" & j & " - " & i)
+            
+        End If
+        
+        If Dir("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\0" & j & " - " & i & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase), vbDirectory) = "" Then
+        
+            MkDir ("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\0" & j & " - " & i & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase))
+            
+            If i = "MB51" Or i = "ZWM013" Then
+                        
+                Workbooks.Open ("Y:\Projetos\Planejamento\SAP\ref\" & LCase(i) & ".xlsm")
+                Set massivo = ActiveWorkbook
+            
+                ActiveWorkbook.SaveAs ("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\0" & j & " - " & i & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\" & LCase(i) & ".xlsm")
+    
+                ActiveWorkbook.Close
+                
+            Else
+            
+                Workbooks.Open ("Y:\Projetos\Planejamento\SAP\ref\" & LCase(i) & ".xlsx")
+                Set massivo = ActiveWorkbook
+            
+                ActiveWorkbook.SaveAs ("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\0" & j & " - " & i & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\" & LCase(i) & ".xlsx")
+    
+                ActiveWorkbook.Close
+                
+            End If
+            
+        End If
+        
+        j = j + 1
+        
+    Else
+    
+        If Dir("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\" & j & " - " & i, vbDirectory) = "" Then
+
+            MkDir ("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\" & j & " - " & i)
+            
+        End If
+        
+        If Dir("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\" & j & " - " & i & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase), vbDirectory) = "" Then
+        
+            MkDir ("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\" & j & " - " & i & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase))
+            
+            If i = "MB51" Or i = "ZWM013" Then
+                        
+                Workbooks.Open ("Y:\Projetos\Planejamento\SAP\ref\" & LCase(i) & ".xlsm")
+                Set massivo = ActiveWorkbook
+            
+                ActiveWorkbook.SaveAs ("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\" & j & " - " & i & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\" & LCase(i) & ".xlsm")
+    
+                ActiveWorkbook.Close
+                
+            Else
+            
+                Workbooks.Open ("Y:\Projetos\Planejamento\SAP\ref\" & LCase(i) & ".xlsx")
+                Set massivo = ActiveWorkbook
+            
+                ActiveWorkbook.SaveAs ("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\" & j & " - " & i & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\" & LCase(i) & ".xlsx")
+    
+                ActiveWorkbook.Close
+                
+            End If
+            
+        End If
+        
+        j = j + 1
+        
+    End If
+        
+Next i
+        
+End Sub
+
+Sub login()
+
+On Error Resume Next
+
+Shell "C:\Program Files (x86)\SAP\FrontEnd\SAPgui\saplogon.exe", vbNormalFocus
+
+Set WSHShell = CreateObject("WScript.Shell")
+
+Do Until WSHShell.AppActivate("SAP Logon ")
+    Application.Wait Now + TimeValue("0:00:01")
+Loop
+
+Set WSHShell = Nothing
+Set SapGui = GetObject("SAPGUI")
+Set Applic = SapGui.GetScriptingEngine
+Set connection = Applic.OpenConnection("1 - [ECC] - ECP - PRODUCAO", True)
+Set session = connection.Children(0)
+
+session.FindById("wnd[0]/usr/txtRSYST-MANDT").Text = "300"
+session.FindById("wnd[0]/usr/txtRSYST-BNAME").Text = "rmoreno"
+session.FindById("wnd[0]/usr/pwdRSYST-BCODE").Text = "R4f43lm0r3n0)"
+session.FindById("wnd[0]/usr/txtRSYST-LANGU").Text = "PT"
+session.FindById("wnd[0]").SendVKey 0
+
+End Sub
+
+Sub close_()
+
+On Error Resume Next
+
+session.FindById("wnd[0]").Close
+session.FindById("wnd[1]/usr/btnSPOP-OPTION1").Press
+
+End Sub
+
+Sub mb51()
+
+On Error GoTo eh
+
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "mb51"
+session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[17]").Press
+session.FindById("wnd[1]/usr/txtENAME-LOW").Text = "mhaziro"
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/ctxtBUDAT-LOW").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/ctxtBUDAT-HIGH").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]").SendVKey 8
+session.FindById("wnd[0]/mbar/menu[0]/menu[1]/menu[1]").Select
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/usr/ctxtDY_PATH").Text = "Y:\Projetos\Projetos Python\SAP VBA\MB51\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase)
+session.FindById("wnd[1]/usr/ctxtDY_FILENAME").Text = "mb51_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX"
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+
+Done:
+Exit Sub
+
+eh:
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "/n"
+session.FindById("wnd[0]").SendVKey 0
+
+End Sub
+
+Sub mb5t()
+
+On Error GoTo eh
+
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "mb5t"
+session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[17]").Press
+session.FindById("wnd[1]/usr/cntlALV_CONTAINER_1/shellcont/shell").CurrentCellRow = 1
+session.FindById("wnd[1]/usr/cntlALV_CONTAINER_1/shellcont/shell").SelectedRows = "1"
+session.FindById("wnd[1]/usr/cntlALV_CONTAINER_1/shellcont/shell").DoubleClickCurrentCell
+session.FindById("wnd[0]").SendVKey 8
+session.FindById("wnd[0]/tbar[1]/btn[43]").Press
+session.FindById("wnd[0]/mbar/menu[0]/menu[1]/menu[1]").Select
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/usr/ctxtDY_PATH").Text = "Y:\Projetos\Projetos Python\SAP VBA\MB5T\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase)
+session.FindById("wnd[1]/usr/ctxtDY_FILENAME").Text = "mb5t_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX"
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+
+Done:
+Exit Sub
+
+eh:
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "/n"
+session.FindById("wnd[0]").SendVKey 0
+
+End Sub
+
+Sub zsd025()
+
+On Error GoTo eh
+
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "zsd025"
+session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[17]").Press
+session.FindById("wnd[1]/usr/txtENAME-LOW").Text = "rmoreno"
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/tabsTABSTRIP_T1/tabpTAB1/ssub%_SUBSCREEN_T1:ZRSD011:0101/ctxtS_FKDAT-LOW").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/tabsTABSTRIP_T1/tabpTAB1/ssub%_SUBSCREEN_T1:ZRSD011:0101/ctxtS_FKDAT-HIGH").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]").SendVKey 8
+'session.FindById("wnd[0]/tbar[1]/btn[38]").Press
+'session.FindById("wnd[0]/mbar/menu[0]/menu[3]/menu[1]").Select
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/usr/ctxtDY_PATH").Text = "Y:\Projetos\Projetos Python\SAP VBA\ZSD025\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase)
+session.FindById("wnd[1]/usr/ctxtDY_FILENAME").Text = "zsd025_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX"
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+
+Done:
+Exit Sub
+
+eh:
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "/n"
+session.FindById("wnd[0]").SendVKey 0
+
+End Sub
+
+Sub zwm013()
+
+On Error GoTo eh
+
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "zwm013"
+session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]").SendVKey 8
+session.FindById("wnd[0]/mbar/menu[0]/menu[3]/menu[1]").Select
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/usr/ctxtDY_PATH").Text = "Y:\Projetos\Projetos Python\SAP VBA\ZWM013\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase)
+session.FindById("wnd[1]/usr/ctxtDY_FILENAME").Text = "zwm013_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX"
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+
+Done:
+Exit Sub
+
+eh:
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "/n"
+session.FindById("wnd[0]").SendVKey 0
+
+End Sub
+
+Sub lx03_l2()
+
+On Error GoTo eh
+
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "lx03"
+session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]/usr/chkPMITB").Selected = True
+session.FindById("wnd[0]/usr/ctxtS1_LGNUM").Text = "L02"
+session.FindById("wnd[0]/usr/ctxtP_VARI").Text = "/rmoreno"
+session.FindById("wnd[0]").SendVKey 8
+session.FindById("wnd[0]/mbar/menu[0]/menu[1]/menu[1]").Select
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/usr/ctxtDY_PATH").Text = "Y:\Projetos\Projetos Python\SAP VBA\LX03_L2\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase)
+session.FindById("wnd[1]/usr/ctxtDY_FILENAME").Text = "lx03_l2_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX"
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+
+Done:
+Exit Sub
+
+eh:
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "/n"
+session.FindById("wnd[0]").SendVKey 0
+
+End Sub
+
+Sub lx03_l1()
+
+On Error GoTo eh
+
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "lx03"
+session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]/usr/chkPMITB").Selected = True
+session.FindById("wnd[0]/usr/ctxtS1_LGNUM").Text = "004"
+session.FindById("wnd[0]/usr/ctxtP_VARI").Text = "/rmoreno"
+session.FindById("wnd[0]/tbar[1]/btn[16]").Press
+session.FindById("wnd[0]/usr/ssub%_SUBSCREEN_%_SUB%_CONTAINER:SAPLSSEL:2001/ssubSUBSCREEN_CONTAINER2:SAPLSSEL:2000/cntlSUB_CONTAINER/shellcont/shellcont/shell/shellcont[1]/shell").ExpandNode "         48"
+session.FindById("wnd[0]/usr/ssub%_SUBSCREEN_%_SUB%_CONTAINER:SAPLSSEL:2001/ssubSUBSCREEN_CONTAINER2:SAPLSSEL:2000/cntlSUB_CONTAINER/shellcont/shellcont/shell/shellcont[1]/shell").SelectNode "         51"
+session.FindById("wnd[0]/usr/ssub%_SUBSCREEN_%_SUB%_CONTAINER:SAPLSSEL:2001/ssubSUBSCREEN_CONTAINER2:SAPLSSEL:2000/cntlSUB_CONTAINER/shellcont/shellcont/shell/shellcont[1]/shell").DoubleClickNode "         51"
+session.FindById("wnd[0]/usr/ssub%_SUBSCREEN_%_SUB%_CONTAINER:SAPLSSEL:2001/ssubSUBSCREEN_CONTAINER2:SAPLSSEL:2000/ssubSUBSCREEN_CONTAINER:SAPLSSEL:1106/ctxt%%DYN001-LOW").Text = "100000"
+session.FindById("wnd[0]/tbar[1]/btn[16]").Press
+session.FindById("wnd[0]").SendVKey 8
+session.FindById("wnd[0]/mbar/menu[0]/menu[1]/menu[1]").Select
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/usr/ctxtDY_PATH").Text = "Y:\Projetos\Projetos Python\SAP VBA\LX03_L1\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase)
+session.FindById("wnd[1]/usr/ctxtDY_FILENAME").Text = "lx03_l1_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX"
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+
+Done:
+Exit Sub
+
+eh:
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "/n"
+session.FindById("wnd[0]").SendVKey 0
+
+End Sub
+
+Sub lx03_pdn()
+
+On Error GoTo eh
+
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "lx03"
+session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]/usr/chkPMITB").Selected = True
+session.FindById("wnd[0]/usr/ctxtS1_LGNUM").Text = "810"
+session.FindById("wnd[0]/usr/ctxtP_VARI").Text = "/rmoreno"
+session.FindById("wnd[0]").SendVKey 8
+session.FindById("wnd[0]/mbar/menu[0]/menu[1]/menu[1]").Select
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/usr/ctxtDY_PATH").Text = "Y:\Projetos\Projetos Python\SAP VBA\LX03_PDN\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase)
+session.FindById("wnd[1]/usr/ctxtDY_FILENAME").Text = "lx03_pdn_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX"
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+
+Done:
+Exit Sub
+
+eh:
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "/n"
+session.FindById("wnd[0]").SendVKey 0
+
+End Sub
+
+Sub ztmm_0001()
+
+On Error GoTo eh
+
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "ztmm_0001"
+session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]/mbar/menu[2]/menu[0]/menu[0]").Select
+session.FindById("wnd[1]/usr/cntlALV_CONTAINER_1/shellcont/shell").CurrentCellRow = 2
+session.FindById("wnd[1]/usr/cntlALV_CONTAINER_1/shellcont/shell").SelectedRows = "2"
+session.FindById("wnd[1]/usr/cntlALV_CONTAINER_1/shellcont/shell").DoubleClickCurrentCell
+session.FindById("wnd[0]/usr/ctxtS1_LGNUM").Text = "004"
+session.FindById("wnd[0]").SendVKey 8
+session.FindById("wnd[0]/mbar/menu[0]/menu[1]/menu[1]").Select
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/usr/ctxtDY_PATH").Text = "Y:\Projetos\Projetos Python\SAP VBA\ZTMM_0001\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase)
+session.FindById("wnd[1]/usr/ctxtDY_FILENAME").Text = "ztmm_0001_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX"
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+
+Done:
+Exit Sub
+
+eh:
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "/n"
+session.FindById("wnd[0]").SendVKey 0
+
+End Sub
+
+Sub mb5b_pt1()
+
+On Error GoTo eh
+
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "mb5b"
+session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[17]").Press
+session.FindById("wnd[1]/usr/txtENAME-LOW").Text = "mhaziro"
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/ctxtDATUM-LOW").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/ctxtDATUM-HIGH").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/btn%_MATNR_%_APP_%-VALU_PUSH").Press
+session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100000"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/btn%_WERKS_%_APP_%-VALU_PUSH").Press
+session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "3101"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8010"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+session.FindById("wnd[0]").SendVKey 8
+session.FindById("wnd[0]/mbar/menu[0]/menu[1]/menu[2]").Select
+session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[1,0]").Select
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/usr/ctxtDY_PATH").Text = "Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase)
+session.FindById("wnd[1]/usr/ctxtDY_FILENAME").Text = "mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt1.XLS"
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+
+Done:
+Exit Sub
+
+eh:
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "/n"
+session.FindById("wnd[0]").SendVKey 0
+
+End Sub
+
+Sub mb5b_pt2()
+
+On Error GoTo eh
+
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "mb5b"
+session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[17]").Press
+session.FindById("wnd[1]/usr/txtENAME-LOW").Text = "mhaziro"
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/ctxtDATUM-LOW").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/ctxtDATUM-HIGH").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/btn%_MATNR_%_APP_%-VALU_PUSH").Press
+session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100100"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/btn%_WERKS_%_APP_%-VALU_PUSH").Press
+session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "3101"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8010"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+session.FindById("wnd[0]").SendVKey 8
+session.FindById("wnd[0]/mbar/menu[0]/menu[1]/menu[2]").Select
+session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[1,0]").Select
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/usr/ctxtDY_PATH").Text = "Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase)
+session.FindById("wnd[1]/usr/ctxtDY_FILENAME").Text = "mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt2.XLS"
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+
+Done:
+Exit Sub
+
+eh:
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "/n"
+session.FindById("wnd[0]").SendVKey 0
+
+End Sub
+
+Sub mb5b_pt3()
+
+On Error GoTo eh
+
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "mb5b"
+session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[17]").Press
+session.FindById("wnd[1]/usr/txtENAME-LOW").Text = "mhaziro"
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/ctxtDATUM-LOW").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/ctxtDATUM-HIGH").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/btn%_MATNR_%_APP_%-VALU_PUSH").Press
+session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100110"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100112"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100113"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/btn%_WERKS_%_APP_%-VALU_PUSH").Press
+session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "3101"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8010"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+session.FindById("wnd[0]").SendVKey 8
+session.FindById("wnd[0]/mbar/menu[0]/menu[1]/menu[2]").Select
+session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[1,0]").Select
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/usr/ctxtDY_PATH").Text = "Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase)
+session.FindById("wnd[1]/usr/ctxtDY_FILENAME").Text = "mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt3.XLS"
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+
+Done:
+Exit Sub
+
+eh:
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "/n"
+session.FindById("wnd[0]").SendVKey 0
+
+End Sub
+
+Sub mb5b_pt4()
+
+On Error GoTo eh
+
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "mb5b"
+session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[17]").Press
+session.FindById("wnd[1]/usr/txtENAME-LOW").Text = "mhaziro"
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/ctxtDATUM-LOW").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/ctxtDATUM-HIGH").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/btn%_MATNR_%_APP_%-VALU_PUSH").Press
+session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100114"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100116"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100117"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100119"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/btn%_WERKS_%_APP_%-VALU_PUSH").Press
+session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "3101"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8010"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+session.FindById("wnd[0]").SendVKey 8
+session.FindById("wnd[0]/mbar/menu[0]/menu[1]/menu[2]").Select
+session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[1,0]").Select
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/usr/ctxtDY_PATH").Text = "Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase)
+session.FindById("wnd[1]/usr/ctxtDY_FILENAME").Text = "mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt4.XLS"
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+
+Done:
+Exit Sub
+
+eh:
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "/n"
+session.FindById("wnd[0]").SendVKey 0
+
+End Sub
+
+Sub mb5b_pt5()
+
+On Error GoTo eh
+
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "mb5b"
+session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[17]").Press
+session.FindById("wnd[1]/usr/txtENAME-LOW").Text = "mhaziro"
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/ctxtDATUM-LOW").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/ctxtDATUM-HIGH").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/btn%_MATNR_%_APP_%-VALU_PUSH").Press
+session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100120"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100121"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100122"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100170"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100171"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100172"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/btn%_WERKS_%_APP_%-VALU_PUSH").Press
+session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "3101"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8010"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+session.FindById("wnd[0]").SendVKey 8
+session.FindById("wnd[0]/mbar/menu[0]/menu[1]/menu[2]").Select
+session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[1,0]").Select
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/usr/ctxtDY_PATH").Text = "Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase)
+session.FindById("wnd[1]/usr/ctxtDY_FILENAME").Text = "mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt5.XLS"
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+
+Done:
+Exit Sub
+
+eh:
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "/n"
+session.FindById("wnd[0]").SendVKey 0
+
+End Sub
+
+Sub mb5b_pt6()
+
+On Error GoTo eh
+
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "mb5b"
+session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[17]").Press
+session.FindById("wnd[1]/usr/txtENAME-LOW").Text = "mhaziro"
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/ctxtDATUM-LOW").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/ctxtDATUM-HIGH").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/btn%_MATNR_%_APP_%-VALU_PUSH").Press
+session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100000"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100100"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/btn%_WERKS_%_APP_%-VALU_PUSH").Press
+session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8001"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8002"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8003"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8004"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8005"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+session.FindById("wnd[0]").SendVKey 8
+session.FindById("wnd[0]/mbar/menu[0]/menu[1]/menu[2]").Select
+session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[1,0]").Select
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/usr/ctxtDY_PATH").Text = "Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase)
+session.FindById("wnd[1]/usr/ctxtDY_FILENAME").Text = "mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt6.XLS"
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+
+Done:
+Exit Sub
+
+eh:
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "/n"
+session.FindById("wnd[0]").SendVKey 0
+
+End Sub
+
+Sub mb5b_pt7()
+
+On Error GoTo eh
+
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "mb5b"
+session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[17]").Press
+session.FindById("wnd[1]/usr/txtENAME-LOW").Text = "mhaziro"
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/ctxtDATUM-LOW").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/ctxtDATUM-HIGH").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/btn%_MATNR_%_APP_%-VALU_PUSH").Press
+session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100110"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100112"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100113"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/btn%_WERKS_%_APP_%-VALU_PUSH").Press
+session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8001"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8002"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8003"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8004"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8005"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+session.FindById("wnd[0]").SendVKey 8
+session.FindById("wnd[0]/mbar/menu[0]/menu[1]/menu[2]").Select
+session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[1,0]").Select
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/usr/ctxtDY_PATH").Text = "Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase)
+session.FindById("wnd[1]/usr/ctxtDY_FILENAME").Text = "mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt7.XLS"
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+
+Done:
+Exit Sub
+
+eh:
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "/n"
+session.FindById("wnd[0]").SendVKey 0
+
+End Sub
+
+Sub mb5b_pt8()
+
+On Error GoTo eh
+
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "mb5b"
+session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[17]").Press
+session.FindById("wnd[1]/usr/txtENAME-LOW").Text = "mhaziro"
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/ctxtDATUM-LOW").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/ctxtDATUM-HIGH").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/btn%_MATNR_%_APP_%-VALU_PUSH").Press
+session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100114"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100116"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100117"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100119"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/btn%_WERKS_%_APP_%-VALU_PUSH").Press
+session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8001"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8002"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8003"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8004"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8005"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+session.FindById("wnd[0]").SendVKey 8
+session.FindById("wnd[0]/mbar/menu[0]/menu[1]/menu[2]").Select
+session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[1,0]").Select
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/usr/ctxtDY_PATH").Text = "Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase)
+session.FindById("wnd[1]/usr/ctxtDY_FILENAME").Text = "mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt8.XLS"
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+
+Done:
+Exit Sub
+
+eh:
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "/n"
+session.FindById("wnd[0]").SendVKey 0
+
+End Sub
+
+Sub mb5b_pt9()
+
+On Error GoTo eh
+
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "mb5b"
+session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[17]").Press
+session.FindById("wnd[1]/usr/txtENAME-LOW").Text = "mhaziro"
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/ctxtDATUM-LOW").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/ctxtDATUM-HIGH").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/btn%_MATNR_%_APP_%-VALU_PUSH").Press
+session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100120"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100121"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100122"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100170"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100171"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100172"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/btn%_WERKS_%_APP_%-VALU_PUSH").Press
+session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8001"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8002"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8003"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8004"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "8005"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+session.FindById("wnd[0]").SendVKey 8
+session.FindById("wnd[0]/mbar/menu[0]/menu[1]/menu[2]").Select
+session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[1,0]").Select
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/usr/ctxtDY_PATH").Text = "Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase)
+session.FindById("wnd[1]/usr/ctxtDY_FILENAME").Text = "mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt9.XLS"
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+
+Done:
+Exit Sub
+
+eh:
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "/n"
+session.FindById("wnd[0]").SendVKey 0
+
+End Sub
+
+Sub mb5bavaria_pt1()
+
+On Error GoTo eh
+
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "mb5b"
+session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[17]").Press
+session.FindById("wnd[1]/usr/txtENAME-LOW").Text = "rmoreno"
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/ctxtDATUM-LOW").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/ctxtDATUM-HIGH").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/btn%_MATNR_%_APP_%-VALU_PUSH").Press
+session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100000"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100100"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+session.FindById("wnd[0]").SendVKey 8
+session.FindById("wnd[0]/mbar/menu[0]/menu[1]/menu[2]").Select
+session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[1,0]").Select
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/usr/ctxtDY_PATH").Text = "Y:\Projetos\Projetos Python\SAP VBA\MB5BAVARIA\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase)
+session.FindById("wnd[1]/usr/ctxtDY_FILENAME").Text = "mb5bavaria_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt1.XLS"
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+
+Done:
+Exit Sub
+
+eh:
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "/n"
+session.FindById("wnd[0]").SendVKey 0
+
+End Sub
+
+Sub mb5bavaria_pt2()
+
+On Error GoTo eh
+
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "mb5b"
+session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[17]").Press
+session.FindById("wnd[1]/usr/txtENAME-LOW").Text = "rmoreno"
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/ctxtDATUM-LOW").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/ctxtDATUM-HIGH").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/btn%_MATNR_%_APP_%-VALU_PUSH").Press
+session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100110"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100112"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100113"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+session.FindById("wnd[0]").SendVKey 8
+session.FindById("wnd[0]/mbar/menu[0]/menu[1]/menu[2]").Select
+session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[1,0]").Select
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/usr/ctxtDY_PATH").Text = "Y:\Projetos\Projetos Python\SAP VBA\MB5BAVARIA\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase)
+session.FindById("wnd[1]/usr/ctxtDY_FILENAME").Text = "mb5bavaria_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt2.XLS"
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+
+Done:
+Exit Sub
+
+eh:
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "/n"
+session.FindById("wnd[0]").SendVKey 0
+
+End Sub
+
+Sub mb5bavaria_pt3()
+
+On Error GoTo eh
+
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "mb5b"
+session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[17]").Press
+session.FindById("wnd[1]/usr/txtENAME-LOW").Text = "rmoreno"
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/ctxtDATUM-LOW").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/ctxtDATUM-HIGH").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/btn%_MATNR_%_APP_%-VALU_PUSH").Press
+session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100114"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100116"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100117"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100119"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+session.FindById("wnd[0]").SendVKey 8
+session.FindById("wnd[0]/mbar/menu[0]/menu[1]/menu[2]").Select
+session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[1,0]").Select
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/usr/ctxtDY_PATH").Text = "Y:\Projetos\Projetos Python\SAP VBA\MB5BAVARIA\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase)
+session.FindById("wnd[1]/usr/ctxtDY_FILENAME").Text = "mb5bavaria_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt3.XLS"
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+
+Done:
+Exit Sub
+
+eh:
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "/n"
+session.FindById("wnd[0]").SendVKey 0
+
+End Sub
+
+Sub mb5bavaria_pt4()
+
+On Error GoTo eh
+
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "mb5b"
+session.FindById("wnd[0]").SendVKey 0
+session.FindById("wnd[0]/tbar[1]/btn[17]").Press
+session.FindById("wnd[1]/usr/txtENAME-LOW").Text = "rmoreno"
+session.FindById("wnd[1]").SendVKey 8
+session.FindById("wnd[0]/usr/ctxtDATUM-LOW").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/ctxtDATUM-HIGH").Text = Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy")
+session.FindById("wnd[0]/usr/btn%_MATNR_%_APP_%-VALU_PUSH").Press
+session.FindById("wnd[1]/tbar[0]/btn[16]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100120"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100121"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100122"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100170"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100171"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[1]/usr/tabsTAB_STRIP/tabpSIVA/ssubSCREEN_HEADER:SAPLALDB:3010/tblSAPLALDBSINGLE/ctxtRSCSEL_255-SLOW_I[1,0]").Text = "100172"
+session.FindById("wnd[1]/tbar[0]/btn[13]").Press
+session.FindById("wnd[0]/tbar[1]/btn[8]").Press
+session.FindById("wnd[0]").SendVKey 8
+session.FindById("wnd[0]/mbar/menu[0]/menu[1]/menu[2]").Select
+session.FindById("wnd[1]/usr/subSUBSCREEN_STEPLOOP:SAPLSPO5:0150/sub:SAPLSPO5:0150/radSPOPLI-SELFLAG[1,0]").Select
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[1]/usr/ctxtDY_PATH").Text = "Y:\Projetos\Projetos Python\SAP VBA\MB5BAVARIA\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase)
+session.FindById("wnd[1]/usr/ctxtDY_FILENAME").Text = "mb5bavaria_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt4.XLS"
+session.FindById("wnd[1]/tbar[0]/btn[0]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+session.FindById("wnd[0]/tbar[0]/btn[15]").Press
+
+Done:
+Exit Sub
+
+eh:
+session.FindById("wnd[0]/tbar[0]/okcd").Text = "/n"
+session.FindById("wnd[0]").SendVKey 0
+
+End Sub
+
+Sub mb5b_concat()
+
+On Error Resume Next
+
+Workbooks.Add
+Set mb5b = ActiveWorkbook
+Workbooks.Open ("Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt1.xls")
+Set mb5bpt1 = ActiveWorkbook
+Range("C2").Select
+Range(Range("C2"), Selection.End(xlDown).End(xlDown).End(xlToRight).End(xlToRight).End(xlToRight)).Select
+Selection.Copy
+mb5b.Activate
+Range("C2").Select
+ActiveSheet.Paste
+Application.CutCopyMode = False
+mb5bpt1.Close
+
+Application.Wait (Now() + TimeValue("00:00:01"))
+
+Workbooks.Open ("Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt2.xls")
+Set mb5bpt2 = ActiveWorkbook
+Range("C4").Select
+Range(Range("C4"), Selection.End(xlDown).End(xlToRight).End(xlToRight).End(xlToRight)).Select
+Selection.Copy
+mb5b.Activate
+Range("C4").Select
+Selection.End(xlDown).Offset(1).Select
+ActiveSheet.Paste
+Application.CutCopyMode = False
+mb5bpt2.Close
+
+Application.Wait (Now() + TimeValue("00:00:01"))
+
+Workbooks.Open ("Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt3.xls")
+Set mb5bpt3 = ActiveWorkbook
+Range("C4").Select
+Range(Range("C4"), Selection.End(xlDown).End(xlToRight).End(xlToRight).End(xlToRight)).Select
+Selection.Copy
+mb5b.Activate
+Range("C4").Select
+Selection.End(xlDown).Offset(1).Select
+ActiveSheet.Paste
+Application.CutCopyMode = False
+mb5bpt3.Close
+
+Application.Wait (Now() + TimeValue("00:00:01"))
+
+Workbooks.Open ("Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt4.xls")
+Set mb5bpt4 = ActiveWorkbook
+Range("C4").Select
+Range(Range("C4"), Selection.End(xlDown).End(xlToRight).End(xlToRight).End(xlToRight)).Select
+Selection.Copy
+mb5b.Activate
+Range("C4").Select
+Selection.End(xlDown).Offset(1).Select
+ActiveSheet.Paste
+Application.CutCopyMode = False
+mb5bpt4.Close
+
+Application.Wait (Now() + TimeValue("00:00:01"))
+
+Workbooks.Open ("Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt5.xls")
+Set mb5bpt5 = ActiveWorkbook
+Range("C4").Select
+Range(Range("C4"), Selection.End(xlDown).End(xlToRight).End(xlToRight).End(xlToRight)).Select
+Selection.Copy
+mb5b.Activate
+Range("C4").Select
+Selection.End(xlDown).Offset(1).Select
+ActiveSheet.Paste
+Application.CutCopyMode = False
+mb5bpt5.Close
+
+Application.Wait (Now() + TimeValue("00:00:01"))
+
+Workbooks.Open ("Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt6.xls")
+Set mb5bpt6 = ActiveWorkbook
+Range("C4").Select
+Range(Range("C4"), Selection.End(xlDown).End(xlToRight).End(xlToRight).End(xlToRight)).Select
+Selection.Copy
+mb5b.Activate
+Range("C4").Select
+Selection.End(xlDown).Offset(1).Select
+ActiveSheet.Paste
+Application.CutCopyMode = False
+mb5bpt6.Close
+
+Application.Wait (Now() + TimeValue("00:00:01"))
+
+Workbooks.Open ("Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt7.xls")
+Set mb5bpt7 = ActiveWorkbook
+Range("C4").Select
+Range(Range("C4"), Selection.End(xlDown).End(xlToRight).End(xlToRight).End(xlToRight)).Select
+Selection.Copy
+mb5b.Activate
+Range("C4").Select
+Selection.End(xlDown).Offset(1).Select
+ActiveSheet.Paste
+Application.CutCopyMode = False
+mb5bpt7.Close
+
+Application.Wait (Now() + TimeValue("00:00:01"))
+
+Workbooks.Open ("Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt8.xls")
+Set mb5bpt8 = ActiveWorkbook
+Range("C4").Select
+Range(Range("C4"), Selection.End(xlDown).End(xlToRight).End(xlToRight).End(xlToRight)).Select
+Selection.Copy
+mb5b.Activate
+Range("C4").Select
+Selection.End(xlDown).Offset(1).Select
+ActiveSheet.Paste
+Application.CutCopyMode = False
+mb5bpt8.Close
+
+Application.Wait (Now() + TimeValue("00:00:01"))
+
+Workbooks.Open ("Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt9.xls")
+Set mb5bpt9 = ActiveWorkbook
+Range("C4").Select
+Range(Range("C4"), Selection.End(xlDown).End(xlToRight).End(xlToRight).End(xlToRight)).Select
+Selection.Copy
+mb5b.Activate
+Range("C4").Select
+Selection.End(xlDown).Offset(1).Select
+ActiveSheet.Paste
+Application.CutCopyMode = False
+mb5bpt9.Close
+
+Application.Wait (Now() + TimeValue("00:00:01"))
+
+For i = 4 To 108
+
+    For j = 9 To 12
+    
+        If WorksheetFunction.IsText(Cells(i, j).Value) = True Then
+        
+            Cells(i, j).Value = CDbl(Cells(i, j).Value)
+            
+        Else
+        
+            Cells(i, j).Value = Cells(i, j).Value / 1000
+    
+        End If
+    
+    Next j
+
+Next i
+
+ActiveWorkbook.SaveAs ("Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".xlsx")
+ActiveWorkbook.SaveAs ("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\03 - MB5B\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".xlsx")
+ActiveWorkbook.Close
+
+Kill ("Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt1.xls")
+Kill ("Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt2.xls")
+Kill ("Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt3.xls")
+Kill ("Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt4.xls")
+Kill ("Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt5.xls")
+Kill ("Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt6.xls")
+Kill ("Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt7.xls")
+Kill ("Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt8.xls")
+Kill ("Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt9.xls")
+
+End Sub
+
+Sub mb5bavaria_concat()
+
+On Error Resume Next
+
+Workbooks.Add
+Set mb5bavaria = ActiveWorkbook
+Workbooks.Open ("Y:\Projetos\Projetos Python\SAP VBA\MB5BAVARIA\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5bavaria_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt1.xls")
+Set mb5bavariapt1 = ActiveWorkbook
+Range("C2").Select
+Range(Range("C2"), Selection.End(xlDown).End(xlDown).End(xlToRight).End(xlToRight).End(xlToRight)).Select
+Selection.Copy
+mb5bavaria.Activate
+Range("C2").Select
+ActiveSheet.Paste
+Application.CutCopyMode = False
+mb5bavariapt1.Close
+
+Application.Wait (Now() + TimeValue("00:00:01"))
+
+Workbooks.Open ("Y:\Projetos\Projetos Python\SAP VBA\MB5BAVARIA\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5bavaria_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt2.xls")
+Set mb5bavariapt2 = ActiveWorkbook
+Range("C4").Select
+Range(Range("C4"), Selection.End(xlDown).End(xlToRight).End(xlToRight).End(xlToRight)).Select
+Selection.Copy
+mb5bavaria.Activate
+Range("C4").Select
+Selection.End(xlDown).Offset(1).Select
+ActiveSheet.Paste
+Application.CutCopyMode = False
+mb5bavariapt2.Close
+
+Application.Wait (Now() + TimeValue("00:00:01"))
+
+Workbooks.Open ("Y:\Projetos\Projetos Python\SAP VBA\MB5BAVARIA\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5bavaria_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt3.xls")
+Set mb5bavariapt3 = ActiveWorkbook
+Range("C4").Select
+Range(Range("C4"), Selection.End(xlDown).End(xlToRight).End(xlToRight).End(xlToRight)).Select
+Selection.Copy
+mb5bavaria.Activate
+Range("C4").Select
+Selection.End(xlDown).Offset(1).Select
+ActiveSheet.Paste
+Application.CutCopyMode = False
+mb5bavariapt3.Close
+
+Application.Wait (Now() + TimeValue("00:00:01"))
+
+Workbooks.Open ("Y:\Projetos\Projetos Python\SAP VBA\MB5BAVARIA\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5bavaria_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt4.xls")
+Set mb5bavariapt4 = ActiveWorkbook
+Range("C4").Select
+Range(Range("C4"), Selection.End(xlDown).End(xlToRight).End(xlToRight).End(xlToRight)).Select
+Selection.Copy
+mb5bavaria.Activate
+Range("C4").Select
+Selection.End(xlDown).Offset(1).Select
+ActiveSheet.Paste
+Application.CutCopyMode = False
+mb5bavariapt4.Close
+
+Application.Wait (Now() + TimeValue("00:00:01"))
+
+For i = 4 To 18
+
+    For j = 9 To 12
+    
+        If WorksheetFunction.IsText(Cells(i, j).Value) = True Then
+        
+            Cells(i, j).Value = CDbl(Cells(i, j).Value)
+            
+        Else
+        
+            Cells(i, j).Value = Cells(i, j).Value / 1000
+    
+        End If
+    
+    Next j
+
+Next i
+
+ActiveWorkbook.SaveAs ("Y:\Projetos\Projetos Python\SAP VBA\MB5BAVARIA\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5bavaria_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".xlsx")
+ActiveWorkbook.SaveAs ("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\06 - MB5BAVARIA\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5bavaria_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".xlsx")
+ActiveWorkbook.Close
+
+Kill ("Y:\Projetos\Projetos Python\SAP VBA\MB5BAVARIA\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5bavaria_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt1.xls")
+Kill ("Y:\Projetos\Projetos Python\SAP VBA\MB5BAVARIA\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5bavaria_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt2.xls")
+Kill ("Y:\Projetos\Projetos Python\SAP VBA\MB5BAVARIA\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5bavaria_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt3.xls")
+Kill ("Y:\Projetos\Projetos Python\SAP VBA\MB5BAVARIA\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5bavaria_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & "_pt4.xls")
+
+End Sub
+
+Sub sap_i()
+
+On Error Resume Next
+
+Application.ScreenUpdating = False
+Application.DisplayAlerts = False
+
+Call login
+
+Call mb51
+Call zsd025
+
+Call mb5b_pt1
+Call mb5b_pt2
+Call mb5b_pt3
+Call mb5b_pt4
+Call mb5b_pt5
+Call mb5b_pt6
+Call mb5b_pt7
+Call mb5b_pt8
+Call mb5b_pt9
+
+Call mb5bavaria_pt1
+Call mb5bavaria_pt2
+Call mb5bavaria_pt3
+Call mb5bavaria_pt4
+
+Call close_
+
+Application.Wait (Now() + TimeValue("00:00:05"))
+
+Call mb5b_concat
+
+Application.Wait (Now() + TimeValue("00:00:05"))
+
+Call mb5bavaria_concat
+
+Application.ScreenUpdating = True
+Application.DisplayAlerts = True
+
+Call save_close
+
+Call last_checkout
+
+Call timer
+
+End Sub
+
+Sub sap_ii()
+
+On Error Resume Next
+
+Application.ScreenUpdating = False
+Application.DisplayAlerts = False
+
+Call dir_sap
+Call dir_sap2
+
+Call login
+
+Call lx03_l1
+Call mb5t
+Call zwm013
+Call lx03_l2
+Call lx03_pdn
+Call ztmm_0001
+
+Call close_
+
+Application.ScreenUpdating = True
+Application.DisplayAlerts = True
+
+End Sub
+
+Sub timer()
+
+On Error Resume Next
+
+Application.Cursor = xlDefault
+
+Application.OnTime TimeValue("00:00:00"), "sap_ii"
+
+Application.OnTime TimeValue("03:00:00"), "sap_i"
+
+Range(Cells(2, 20), Cells(12, 30)).Interior.ColorIndex = 4
+
+End Sub
+
+Sub save_close()
+
+On Error Resume Next
+
+For Each i In Workbooks
+
+    If i.FullName = "Y:\Projetos\Projetos Python\SAP VBA\MB51\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb51_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX" Then
+
+        i.SaveAs ("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\01 - MB51\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb51_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".xlsx")
+        i.Close
+
+    ElseIf i.FullName = "Y:\Projetos\Projetos Python\SAP VBA\ZSD025\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\zsd025_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX" Then
+
+        i.SaveAs ("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\02 - ZSD025\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\zsd025_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".xlsx")
+        i.Close
+
+    ElseIf i.FullName = "Y:\Projetos\Projetos Python\SAP VBA\MB5T\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5t_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX" Then
+
+        i.SaveAs ("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\04 - MB5T\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5t_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".xlsx")
+        i.Close
+
+    ElseIf i.FullName = "Y:\Projetos\Projetos Python\SAP VBA\ZWM013\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\zwm013_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX" Then
+
+        i.SaveAs ("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\05 - ZWM013\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\zwm013_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".xlsx")
+        i.Close
+        
+    ElseIf i.FullName = "Y:\Projetos\Projetos Python\SAP VBA\LX03_L1\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\lx03_l1_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX" Then
+
+        i.SaveAs ("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\07 - LX03_L1\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\lx03_l1_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".xlsx")
+        i.Close
+          
+    ElseIf i.FullName = "Y:\Projetos\Projetos Python\SAP VBA\LX03_L2\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\lx03_l2_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX" Then
+
+        i.SaveAs ("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\08 - LX03_L2\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\lx03_l2_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".xlsx")
+        i.Close
+
+    ElseIf i.FullName = "Y:\Projetos\Projetos Python\SAP VBA\LX03_PDN\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\lx03_pdn_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX" Then
+
+        i.SaveAs ("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\09 - LX03_PDN\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\lx03_pdn_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".xlsx")
+        i.Close
+
+    ElseIf i.FullName = "Y:\Projetos\Projetos Python\SAP VBA\ZTMM_0001\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\ztmm_0001_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX" Then
+
+        i.SaveAs ("Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\10 - ZTMM_0001\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\ztmm_0001_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".xlsx")
+        i.Close
+
+    End If
+
+Next i
+
+End Sub
+
+Sub last_checkout()
+
+On Error Resume Next
+
+mb51_left = "Y:\Projetos\Projetos Python\SAP VBA\MB51\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb51_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX"
+zsd025_left = "Y:\Projetos\Projetos Python\SAP VBA\ZSD025\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\zsd025_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX"
+mb5b_left = "Y:\Projetos\Projetos Python\SAP VBA\MB5B\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX"
+mb5t_left = "Y:\Projetos\Projetos Python\SAP VBA\MB5T\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5t_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX"
+zwm013_left = "Y:\Projetos\Projetos Python\SAP VBA\ZWM013\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\zwm013_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX"
+mb5bavaria_left = "Y:\Projetos\Projetos Python\SAP VBA\MB5BAVARIA\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5bavaria_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX"
+lx03_l1_left = "Y:\Projetos\Projetos Python\SAP VBA\LX03_L1\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\lx03_l1_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX"
+lx03_l2_left = "Y:\Projetos\Projetos Python\SAP VBA\LX03_L2\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\lx03_l2_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX"
+lx03_pdn_left = "Y:\Projetos\Projetos Python\SAP VBA\LX03_PDN\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\lx03_pdn_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX"
+ztmm_0001_left = "Y:\Projetos\Projetos Python\SAP VBA\ZTMM_0001\" & Format(Now() - 1, "yyyy") & "\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\ztmm_0001_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".XLSX"
+
+mb51_right = "Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\01 - MB51\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb51_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".xlsx"
+zsd025_right = "Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\02 - ZSD025\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\zsd025_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".xlsx"
+mb5b_right = "Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\03 - MB5B\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5b_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".xlsx"
+mb5t_right = "Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\04 - MB5T\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5t_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".xlsx"
+zwm013_right = "Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\05 - ZWM013\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\zwm013_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".xlsx"
+mb5bavaria_right = "Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\06 - MB5BAVARIA\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\mb5bavaria_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".xlsx"
+lx03_l1_right = "Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\07 - LX03_L1\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\lx03_l1_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".xlsx"
+lx03_l2_right = "Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\08 - LX03_L2\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\lx03_l2_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".xlsx"
+lx03_pdn_right = "Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\09 - LX03_PDN\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\lx03_pdn_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".xlsx"
+ztmm_0001_right = "Y:\Projetos\Planejamento\SAP\" & Format(Now() - 1, "yyyy") & "\10 - ZTMM_0001\" & Format(Now() - 1, "mm") & " - " & StrConv(Format(Now() - 1, "mmmm[$-pt-BR]"), vbProperCase) & "\ztmm_0001_" & Format(DateSerial(Year(Now() - 1), Month(Now() - 1), Day(Now() - 1)), "ddmmyyyy") & ".xlsx"
+
+If Dir(mb51_right) = "" And Dir(mb51_left) <> "" Then
+
+    FileCopy mb51_left, mb51_right
+
+End If
+
+If Dir(zsd025_right) = "" And Dir(zsd025_left) <> "" Then
+
+    FileCopy zsd025_left, zsd025_right
+    
+End If
+
+If Dir(mb5b_right) = "" And Dir(mb5b_left) <> "" Then
+
+    FileCopy mb5b_left, mb5b_right
+    
+End If
+
+If Dir(mb5t_right) = "" And Dir(mb5t_left) <> "" Then
+
+    FileCopy mb5t_left, mb5t_right
+
+End If
+
+If Dir(zwm013_right) = "" And Dir(zwm013_left) <> "" Then
+
+    FileCopy zwm013_left, zwm013_right
+
+End If
+
+If Dir(mb5bavaria_right) = "" And Dir(mb5bavaria_left) <> "" Then
+
+    FileCopy mb5bavaria_left, mb5bavaria_right
+
+End If
+
+If Dir(lx03_l1_right) = "" And Dir(lx03_l1_left) <> "" Then
+
+    FileCopy lx03_l1_left, lx03_l1_right
+
+End If
+
+If Dir(lx03_l2_right) = "" And Dir(lx03_l2_left) <> "" Then
+
+    FileCopy lx03_l2_left, lx03_l2_right
+
+End If
+
+If Dir(lx03_pdn_right) = "" And Dir(lx03_pdn_left) <> "" Then
+
+    FileCopy lx03_pdn_left, lx03_pdn_right
+
+End If
+
+If Dir(ztmm_0001_right) = "" And Dir(ztmm_0001_left) <> "" Then
+
+    FileCopy ztmm_0001_left, ztmm_0001_right
+
+End If
+
+End Sub
